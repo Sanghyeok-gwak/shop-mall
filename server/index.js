@@ -34,7 +34,7 @@ const db = process.env.DATABASE_URL
                 host: "localhost",
                 user: "jsuser",
                 password: "pwjs",
-                database: "jsdb"
+                database: "judb"
             });
 
 // 쉬고 있는 연결에서 오류가 나도 서버가 종료되지 않도록 처리
