@@ -1,6 +1,7 @@
 import express from "express"
 import pg from 'pg'
 import cors from 'cors'
+import "dotenv/config";
 
 // app 객체 생성
 const app = express();
@@ -21,21 +22,23 @@ app.use(cors({
     host: "localhost",
     user: "jsuser",
     password: "pwjs",
-    database: "jsdb"
+    database: "judb"
 });*/
 
 // pg.Pool: 연결을 여러 개 관리하고, 끊어진 연결은 자동으로 다시 만듬
-const db = process.env.DATABASE_URL 
-            ? new pg.Pool({
-                connectionString: process.env.DATABASE_URL,
-                ssl: { rejectUnauthorized: false}
-            })
-            : new pg.Pool({
-                host: "localhost",
-                user: "jsuser",
-                password: "pwjs",
-                database: "judb"
-            });
+console.log("DATABASE_URL 설정 여부:", Boolean(process.env.DATABASE_URL));
+const db = process.env.DATABASE_URL
+    ? new pg.Pool({
+        connectionString: process.env.DATABASE_URL,
+        ssl: { rejectUnauthorized: false }
+    })
+    : new pg.Pool({
+        host: "localhost",
+        port: 5432,
+        user: "jsuser",
+        password: "pwjs",
+        database: "jsdb"
+    });
 
 // 쉬고 있는 연결에서 오류가 나도 서버가 종료되지 않도록 처리
 db.on("error", (err) => {
